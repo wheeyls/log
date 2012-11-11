@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <script src="js/jquery.js"></script>
+  <script src="js/underscore.js"></script>
+  <script src="js/script.js"></script>
+</head>
+<body>
+  <form action="#" id="new">
+    <label for="exercise">Exercise</label>
+    <input name="exercise">
+    <label for="weight">Weight</label>
+    <input name="weight">
+    <label for="reps">Reps</label>
+    <input name="reps">
+    <div>
+      <input type="submit">
+    </div>
+  </form>
+
+  <h2>Sets</h2>
+  <ul id="sets"></ul>
+
+  <script type="x-template" id="date-header">
+    <li class="date">
+      <strong><%= date %></strong>
+    </li>
+  </script>
+  <script type="x-template" id="list-template">
+    <li class="set">
+      <strong><%= exercise %>:</strong> <%= weight %> X <%= reps %>
+    </li>
+  </script>
+</body>
+</html>
