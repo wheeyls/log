@@ -3,13 +3,21 @@
   var sets
     ;
 
+  function toDate(value) {
+    var str = Object.prototype.toString.call(value);
+    return str === "[object Date]" ? value : new Date(value);
+  }
+
   function set(opts) {
+    opts = opts || {};
+    opts.date && (opts.date = toDate(opts.date));
+
     var me = $.extend({
       exercise: null
     , weight: null
     , reps: 0
     , date: new Date()
-    }, (opts || {}));
+    }, (opts));
 
     return me;
   }
@@ -17,7 +25,10 @@
   function loadSets() {
     var loaded = localStorage && localStorage.getItem('weight-sets');
     loaded && (loaded = JSON.parse(loaded));
-    sets = loaded || [];
+
+    sets = _(loaded).map(function (values) {
+      return set(values);
+    }) || [];
   }
 
   function saveSets() {
@@ -36,11 +47,6 @@
     });
 
     sets.push(aSet);
-  }
-
-  function toDate(value) {
-    var str = Object.prototype.toString.call(value);
-    return str === "[object Date]" ? value : new Date(value);
   }
 
   function renderSets() {
@@ -66,11 +72,12 @@
   $(function () {
     $("#new").submit(function (e) {
       setFromForm(this);
-      saveSets();
       renderSets();
       e.preventDefault();
       this.reset();
+      window.setTimeout(saveSets, 0);
     });
+
     loadSets();
     renderSets();
   });
